@@ -65,7 +65,6 @@ TEMPLATE = """
 {% endblock %}
 """
 
-
 class HandshakesDL(plugins.Plugin):
     __author__ = 'me@sayakb.com'
     __version__ = '0.2.1'
@@ -89,7 +88,9 @@ class HandshakesDL(plugins.Plugin):
         if path == "/" or not path:
             handshakes = glob.glob(os.path.join(self.config['bettercap']['handshakes'], "*.pcap"))
             handshakes = [os.path.basename(path)[:-5] for path in handshakes]
-            return render_template_string(TEMPLATE, title="Handshakes | " + pwnagotchi.name(), handshakes=handshakes)
+            return render_template_string(TEMPLATE,
+                                    title="Handshakes | " + pwnagotchi.name(),
+                                    handshakes=handshakes)
 
         else:
             dir = self.config['bettercap']['handshakes']
