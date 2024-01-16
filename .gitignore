@@ -1,1 +1,5 @@
-*.*~
+# Default ignored files
+/pwnagotchi_plugins.code-workspace
+/shelf/
+/workspace.xml
+#*.*~
