@@ -1,0 +1,5 @@
+main.plugins.memtemp.enabled = true
+main.plugins.memtemp.scale = "celsius"
+main.plugins.memtemp.orientation = "vertical" #adjusted for preference on waveshare 3.7
+main.plugins.memtemp.position = "382,194" #adjusted to support waveshare 3.7
+main.plugins.memtemp.linespacing = 18 #adjusted to support waveshare 3.7
