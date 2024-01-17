@@ -1,0 +1,5 @@
+main.plugins.weather.enabled = false
+main.plugins.weather.api_key = ""
+main.plugins.weather.areacode = ""
+main.plugins.weather.countrycode = ""
+main.plugins.weather.gpson = false
