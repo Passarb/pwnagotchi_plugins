@@ -23,11 +23,10 @@ FILE_SAVE_LEGACY = "exp"
 JSON_KEY_LEVEL = "level"
 JSON_KEY_EXP ="exp"
 JSON_KEY_EXP_TOT ="exp_tot"
-JSON_KEY_STRENGTH = "strength"
 
 class EXP(plugins.Plugin):
-    __author__ = 'GaelicThunder, Kaska89, Rai, JayofElony, & Terminator'
-    __version__ = '2.0.1'
+    __author__ = 'GaelicThunder'
+    __version__ = '1.0.5'
     __license__ = 'GPL3'
     __description__ = 'Get exp every time a handshake get captured.'
 
@@ -42,7 +41,6 @@ class EXP(plugins.Plugin):
     
     def __init__(self):
         self.percent=0
-        self.strength=1
         self.calculateInitialXP = False
         self.exp=0
         self.lv=1
@@ -97,7 +95,6 @@ class EXP(plugins.Plugin):
         print(self.exp,file=outfile)
         print(self.lv,file=outfile)
         print(self.exp_tot,file=outfile)
-        print(self.strength,file=outfile)
         outfile.close()
 
     def loadFromTxtFile(self, file):
@@ -112,8 +109,6 @@ class EXP(plugins.Plugin):
                     self.lv == int(line)
                 elif linecounter == 3:
                     self.exp_tot == int(line)
-                elif linecounter == 4:
-                    self.strength == int(line)
                 linecounter += 1
             outfile.close()
     
@@ -121,8 +116,7 @@ class EXP(plugins.Plugin):
         data = {
             JSON_KEY_LEVEL : self.lv,
             JSON_KEY_EXP : self.exp,
-            JSON_KEY_EXP_TOT : self.exp_tot,
-            JSON_KEY_STRENGTH : self.strength
+            JSON_KEY_EXP_TOT : self.exp_tot
         }
 
         with open(file, 'w') as f:
@@ -138,7 +132,6 @@ class EXP(plugins.Plugin):
             self.lv = data[JSON_KEY_LEVEL]
             self.exp = data[JSON_KEY_EXP]
             self.exp_tot = data[JSON_KEY_EXP_TOT]
-            self.strength = data[JSON_KEY_STRENGTH]
         else:
             self.LogInfo("Empty json")
     
@@ -192,11 +185,7 @@ class EXP(plugins.Plugin):
         ui.add_element('Exp', LabeledValue(color=BLACK, label='Exp', value=0,
                                            position=(int(self.options["exp_x_coord"]),
                                                      int(self.options["exp_y_coord"])),
-                                          label_font=fonts.Bold, text_font=fonts.Medium))
-        ui.add_element('Str', LabeledValue(color=BLACK, label='Str', value=0,
-                                           position=(int(self.options["str_x_coord"]),
-                                                     int(self.options["str_y_coord"])),
-                                          label_font=fonts.Bold, text_font=fonts.Medium))
+                                           label_font=fonts.Bold, text_font=fonts.Medium))
 
     def on_ui_update(self, ui):
         self.expneeded=self.calcExpNeeded(self.lv)
@@ -205,8 +194,6 @@ class EXP(plugins.Plugin):
         bar=self.barString(symbols_count, self.percent) 
         ui.set('Lv', "%d" % self.lv)
         ui.set('Exp', "%s" % bar)
-        self.calcStrength()
-        ui.set('Str', "%d" % self.strength)
 
 
     def calcExpNeeded(self, level):
@@ -324,10 +311,6 @@ class EXP(plugins.Plugin):
         view.set('face', FACE_LEVELUP)
         view.set('status', "Level Up!")
         view.update(force=True)
-        
-    def calcStrength(self):
-        # Custom formula for strength calculation
-        self.strength = self.exp * self.lv * 0.05
 
     # Event Handling
     def on_association(self, agent, access_point):
